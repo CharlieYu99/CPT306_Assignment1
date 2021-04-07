@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 6132701164139709659}
   - component: {fileID: 6132701164139709652}
   - component: {fileID: 6132701164139709655}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: SpaceFighter
   m_TagString: Player
   m_Icon: {fileID: 0}
