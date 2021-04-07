@@ -21,18 +21,17 @@ public class SpaceFighter : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // if (Input.GetKey(KeyCode.UpArrow)) rigidBody.position = new Vector2(rigidBody.position.x, rigidBody.position.y + movespeed);
-        // if (Input.GetKey(KeyCode.DownArrow)) rigidBody.position = new Vector2(rigidBody.position.x, rigidBody.position.y - movespeed);
-        // if (Input.GetKey(KeyCode.LeftArrow)) rigidBody.position = new Vector2(rigidBody.position.x - movespeed, rigidBody.position.y);
-        // if (Input.GetKey(KeyCode.RightArrow)) rigidBody.position = new Vector2(rigidBody.position.x + movespeed, rigidBody.position.y);
 
-        if (Input.GetKeyDown(KeyCode.UpArrow)) rigidBody.velocity = new Vector2(rigidBody.velocity.x, rigidBody.velocity.y + movespeed);
-        if (Input.GetKeyDown(KeyCode.DownArrow)) rigidBody.velocity = new Vector2(rigidBody.velocity.x, rigidBody.velocity.y - movespeed);
-        if (Input.GetKeyDown(KeyCode.LeftArrow)) rigidBody.velocity = new Vector2(rigidBody.velocity.x - movespeed, rigidBody.velocity.y);
-        if (Input.GetKeyDown(KeyCode.RightArrow)) rigidBody.velocity = new Vector2(rigidBody.velocity.x + movespeed, rigidBody.velocity.y);
     }
 
     private void FixedUpdate() {
+        rigidBody.velocity = new Vector2(Input.GetAxis("Horizontal")*movespeed, Input.GetAxis("Vertical")*movespeed);
 
     }
+
+    void OnCollisionEnter2D(Collision2D collision){
+    
+    }
+
+
 }
