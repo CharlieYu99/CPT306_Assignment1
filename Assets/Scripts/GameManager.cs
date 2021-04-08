@@ -26,6 +26,10 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        
+    }
+
+    private void FixedUpdate() {
         if (Input.GetKeyDown(KeyCode.S)) StartGame();
     }
 

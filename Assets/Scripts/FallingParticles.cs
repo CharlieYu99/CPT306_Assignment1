@@ -15,9 +15,15 @@ public class FallingParticles : MonoBehaviour
     // Start is called before the first frame update
     public float fallingSpeedMax = -2.0f;
     private float speedDecreaseRate = 0.95f;
-    private Rigidbody2D rigidBody;
+    public Rigidbody2D rigidBody;
     public FallingParticles instance;
     public ParticleType particleType;
+
+    // private float fix_X = 5.0f;
+    // private bool active = true;
+
+    private Vector2 lastPosition;
+
     void Awake() {
         instance = this;
         rigidBody = GetComponent<Rigidbody2D>();
@@ -41,10 +47,12 @@ public class FallingParticles : MonoBehaviour
             default:
                 break;
         }
+        lastPosition = transform.position;
     }
     void Start()
     {
-        
+        rigidBody.velocity = new Vector2(0, fallingSpeedMax);
+
     }
 
     // Update is called once per frame
@@ -55,15 +63,18 @@ public class FallingParticles : MonoBehaviour
 
     void FixedUpdate() {
         //limit the maxspeed
-        if (rigidBody.velocity.y < fallingSpeedMax){
-            rigidBody.velocity = new Vector2(rigidBody.velocity.x * speedDecreaseRate, fallingSpeedMax);
-        } else{
-            rigidBody.velocity = new Vector2(rigidBody.velocity.x * speedDecreaseRate, rigidBody.velocity.y);
-        }
+        var v = new Vector2(rigidBody.velocity.x * speedDecreaseRate, fallingSpeedMax);
+        
+        rigidBody.velocity = Vector2.ClampMagnitude(v, -fallingSpeedMax);
+
+        
     }
+
+
 
     void OnCollisionEnter2D(Collision2D collision){
         
     }
+
 
 }
