@@ -62,6 +62,7 @@ public class FallingParticles : MonoBehaviour
                 Vector2 thisPosition = rigidBody.position;
                 Vector2 otherPosition = other.gameObject.transform.position;
                 if (thisPosition.y > otherPosition.y && Mathf.Abs(thisPosition.x - otherPosition.x) <= Mathf.Abs(thisPosition.y - otherPosition.y)){
+                    GameManager.instance.DHAdded();
                     ParticalGenerator.instance.destroyPartical(instance);
                 }
             }
@@ -73,17 +74,27 @@ public class FallingParticles : MonoBehaviour
             }
         }
 
-        if (other.gameObject.tag == "Bottom"){
+        if (other.gameObject.tag == "Bottom" && gameObject.tag != "Bottom"){
             gameObject.tag = "Bottom";
             // rigidBody.velocity = Vector2.zero;
-            checkDestroy();
-
+            if (particleType == ParticleType.Gray){
+                GameManager.instance.DebrisAdded();
+            }else{
+                checkDestroy();
+            }
+            
             if (rigidBody.position.y > -1.0f){
                 // the storage area is filled with non-lined ionised particles; "Opps! Ionised particles are not successfully lined in the storage! " in Orange
                 GameManager.instance.GameOver();
             }
         }
 
+    }
+
+    private void OnCollisionExit2D(Collision2D other) {
+        if (touchPlayer){
+            touchPlayer = false;
+        }
     }
 
     private ParticleType setParticleType(){
@@ -128,10 +139,7 @@ public class FallingParticles : MonoBehaviour
     }
 
     private void checkDestroy(){
-        if (particleType == ParticleType.Gray){
-            GameManager.instance.DebrisAdded();
-
-        }else if (particleType == ParticleType.Red){
+            if (particleType == ParticleType.Red){
             // see if could destory
             Vector2 thisPosition = rigidBody.position;
             FallingParticles particleRight1 = GetNeighbour(thisPosition, Vector2.right, diameter);

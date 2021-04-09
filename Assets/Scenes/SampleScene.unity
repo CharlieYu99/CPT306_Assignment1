@@ -889,6 +889,23 @@ MonoBehaviour:
   inGameCanvas: {fileID: 1154152651}
   pauseCanvas: {fileID: 588699651}
   gameOverCanvas: {fileID: 1306218574}
+  debrisCounter: 0
+  DH: 0
+  IPG: 0
+  S: 0
+  R: 0
+  G: 0
+  B: 0
+  RGB: 0
+  Text_DH: {fileID: 1238733649}
+  Text_IPG: {fileID: 146235461}
+  Text_S: {fileID: 1304848426}
+  Text_T: {fileID: 2102389888}
+  Text_R: {fileID: 557787621}
+  Text_G: {fileID: 594331816}
+  Text_B: {fileID: 1170732749}
+  Text_RGB: {fileID: 526040416}
+  Text_Gameover: {fileID: 0}
 --- !u!4 &232037735
 Transform:
   m_ObjectHideFlags: 0
@@ -3294,7 +3311,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -87.922, y: -0.000030517578}
+  m_AnchoredPosition: {x: -87.92198, y: -0.000027619873}
   m_SizeDelta: {x: 35.005, y: 17.93}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1238733649

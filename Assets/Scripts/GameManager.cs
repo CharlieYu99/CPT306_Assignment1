@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 
 public enum GameState
@@ -34,6 +35,18 @@ public class GameManager : MonoBehaviour
     private int ScoreValue_RGB = 15;
     private int ScoreValue_RRRGGGBBB = 10;
 
+    public Text Text_DH;
+    public Text Text_IPG;
+    public Text Text_S;
+    public Text Text_T;
+    public Text Text_R;
+    public Text Text_G;
+    public Text Text_B;
+    public Text Text_RGB;
+    public Text Text_Gameover;
+
+    private float timeSpend = 0.0f;
+
 
 
     private void Awake() {
@@ -47,11 +60,21 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if (Input.GetKeyDown(KeyCode.Space)) GamePause();
     }
 
     private void FixedUpdate() {
-        // if (Input.GetKeyDown(KeyCode.S)) StartGame();
+        
+        timeSpend += Time.fixedDeltaTime;
+
+        int hour = (int)timeSpend / 3600;
+        int minute = ((int)timeSpend - hour * 3600) / 60;
+        int second = (int)timeSpend - hour * 3600 - minute * 60;
+        int millisecond = (int)((timeSpend - (int)timeSpend) * 1000);
+
+        Text_T.text = string.Format("{0:D2}:{1:D2}",minute,second);
+
+
     }
 
 
@@ -65,7 +88,14 @@ public class GameManager : MonoBehaviour
     }
 
     public void GamePause(){
-        SetGameState(GameState.pause);
+        if (Time.timeScale == 1){
+            Time.timeScale = 0;
+            SetGameState(GameState.pause);
+        }else{
+            Time.timeScale = 1;
+            SetGameState(GameState.inGame);
+        }
+        
     }
 
     public void BackToMenu(){
@@ -117,7 +147,7 @@ public class GameManager : MonoBehaviour
 
     public void DebrisAdded(){
         debrisCounter ++;
-        if (debrisCounter >= 5){
+        if (debrisCounter > 5){
             // "Opps! Debris are filled in the storage! " in Black
             GameOver();
         }
@@ -126,30 +156,48 @@ public class GameManager : MonoBehaviour
     public void DHAdded(){
         DH++;
         S += ScoreValue_DH;
+
+        Text_DH.text = DH.ToString();
+        Text_S.text = S.ToString();
+        
+
     }
 
     public void RAdded(){
         R++;
         IPG++;
         S += ScoreValue_RRRGGGBBB;
+        Text_R.text = R.ToString();
+        Text_IPG.text = IPG.ToString();
+        Text_S.text = S.ToString();
     }
     
     public void GAdded(){
         G++;
         IPG++;
         S += ScoreValue_RRRGGGBBB;
+        Text_G.text = G.ToString();
+        Text_IPG.text = IPG.ToString();
+        Text_S.text = S.ToString();
+
     }
     
     public void BAdded(){
         B++;
         IPG++;
         S += ScoreValue_RRRGGGBBB;
+        Text_B.text = B.ToString();
+        Text_IPG.text = IPG.ToString();
+        Text_S.text = S.ToString();
     }
 
     public void RGBAdded(){
         RGB++;
         IPG++;
         S += ScoreValue_RGB;
+        Text_RGB.text = RGB.ToString();
+        Text_IPG.text = IPG.ToString();
+        Text_S.text = S.ToString();
     }
 
 
