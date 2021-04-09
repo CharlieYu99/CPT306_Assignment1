@@ -21,6 +21,20 @@ public class GameManager : MonoBehaviour
     public Canvas pauseCanvas;
     public Canvas gameOverCanvas;
 
+    public int debrisCounter = 0;
+    public int DH = 0;
+    public int IPG = 0;
+    public int S = 0;
+    public int R = 0;
+    public int G = 0;
+    public int B = 0;
+    public int RGB = 0;
+
+    private int ScoreValue_DH = 5;
+    private int ScoreValue_RGB = 15;
+    private int ScoreValue_RRRGGGBBB = 10;
+
+
 
     private void Awake() {
         instance = this;
@@ -100,4 +114,43 @@ public class GameManager : MonoBehaviour
 
         currentGameState = newGameState;
     }
+
+    public void DebrisAdded(){
+        debrisCounter ++;
+        if (debrisCounter >= 5){
+            // "Opps! Debris are filled in the storage! " in Black
+            GameOver();
+        }
+    }
+
+    public void DHAdded(){
+        DH++;
+        S += ScoreValue_DH;
+    }
+
+    public void RAdded(){
+        R++;
+        IPG++;
+        S += ScoreValue_RRRGGGBBB;
+    }
+    
+    public void GAdded(){
+        G++;
+        IPG++;
+        S += ScoreValue_RRRGGGBBB;
+    }
+    
+    public void BAdded(){
+        B++;
+        IPG++;
+        S += ScoreValue_RRRGGGBBB;
+    }
+
+    public void RGBAdded(){
+        RGB++;
+        IPG++;
+        S += ScoreValue_RGB;
+    }
+
+
 }
