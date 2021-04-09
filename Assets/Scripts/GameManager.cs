@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-
+using UnityEngine.SceneManagement;
 
 public enum GameState
 {
@@ -14,10 +14,10 @@ public enum GameState
 public class GameManager : MonoBehaviour
 {
     // Start is called before the first frame update
-    public GameState currentGameState = GameState.menu;
+    public GameState currentGameState = GameState.inGame;
     public static GameManager instance;
 
-    public Canvas menuCanvas;
+    // public Canvas menuCanvas;
     public Canvas inGameCanvas;
     public Canvas pauseCanvas;
     public Canvas gameOverCanvas;
@@ -44,7 +44,7 @@ public class GameManager : MonoBehaviour
     public Text Text_B;
     public Text Text_RGB;
     public Text Text_Gameover;
-
+    public Text Text_Gameover_detail;
     private float timeSpend = 0.0f;
 
 
@@ -55,6 +55,7 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         StartGame();
+        Time.timeScale = 1;
     }
 
     // Update is called once per frame
@@ -83,7 +84,21 @@ public class GameManager : MonoBehaviour
         SetGameState(GameState.inGame);
     }
 
-    public void GameOver(){
+    public void RestartGame(){
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+
+    public void ExitGame(){
+        Application.Quit();
+    }
+
+    public void GameOver(bool win, string text, Color color){
+        if (win){
+            Text_Gameover.text = "You win!";
+        }
+        Text_Gameover_detail.text = text;
+        Text_Gameover_detail.color = color;
+
         SetGameState(GameState.gameOver);
     }
 
@@ -107,7 +122,7 @@ public class GameManager : MonoBehaviour
         if (newGameState == GameState.menu)
         {
             //  setup Unity scene for menu state
-            menuCanvas.enabled = true;
+            // menuCanvas.enabled = true;
             inGameCanvas.enabled = false;
             pauseCanvas.enabled = false;
             gameOverCanvas.enabled = false;
@@ -115,7 +130,7 @@ public class GameManager : MonoBehaviour
         else if (newGameState == GameState.inGame)
         {
             //  setup Unity scene for inGame state
-            menuCanvas.enabled = false;
+            // menuCanvas.enabled = false;
             inGameCanvas.enabled = true;
             pauseCanvas.enabled = false;
             gameOverCanvas.enabled = false;
@@ -124,7 +139,7 @@ public class GameManager : MonoBehaviour
         else if (newGameState == GameState.pause)
         {
             //  setup Unity scene for pause state
-            menuCanvas.enabled = false;
+            // menuCanvas.enabled = false;
             inGameCanvas.enabled = true;
             pauseCanvas.enabled = true;
             gameOverCanvas.enabled = false;
@@ -135,10 +150,13 @@ public class GameManager : MonoBehaviour
         else if (newGameState == GameState.gameOver)
         {
             //  setup Unity scene for gameOver state
-            menuCanvas.enabled = false;
-            inGameCanvas.enabled = false;
+            // menuCanvas.enabled = false;
+            inGameCanvas.enabled = true;
             pauseCanvas.enabled = false;
             gameOverCanvas.enabled = true;
+            // SpaceFighter.instance.enabled = false;
+            // ParticalGenerator.instance.enabled = false;
+            Time.timeScale = 0;
 
         }
 
@@ -148,19 +166,18 @@ public class GameManager : MonoBehaviour
     public void DebrisAdded(){
         debrisCounter ++;
         if (debrisCounter > 5){
-            // "Opps! Debris are filled in the storage! " in Black
-            GameOver();
+            // "Opps! Debris are filled in the storage!" in Black
+            GameOver(false, "Opps! Debris are filled in the storage!", Color.black);
         }
     }
 
     public void DHAdded(){
         DH++;
         S += ScoreValue_DH;
-
         Text_DH.text = DH.ToString();
         Text_S.text = S.ToString();
-        
-
+        checkWin();
+    
     }
 
     public void RAdded(){
@@ -170,6 +187,7 @@ public class GameManager : MonoBehaviour
         Text_R.text = R.ToString();
         Text_IPG.text = IPG.ToString();
         Text_S.text = S.ToString();
+        checkWin();
     }
     
     public void GAdded(){
@@ -179,7 +197,7 @@ public class GameManager : MonoBehaviour
         Text_G.text = G.ToString();
         Text_IPG.text = IPG.ToString();
         Text_S.text = S.ToString();
-
+        checkWin();
     }
     
     public void BAdded(){
@@ -189,6 +207,7 @@ public class GameManager : MonoBehaviour
         Text_B.text = B.ToString();
         Text_IPG.text = IPG.ToString();
         Text_S.text = S.ToString();
+        checkWin();
     }
 
     public void RGBAdded(){
@@ -198,7 +217,13 @@ public class GameManager : MonoBehaviour
         Text_RGB.text = RGB.ToString();
         Text_IPG.text = IPG.ToString();
         Text_S.text = S.ToString();
+        checkWin();
     }
 
 
+    private void checkWin(){
+        if (S >= 100){
+            GameOver(true, "Congratulations! You Won! ", Color.yellow);
+        }
+    }
 }

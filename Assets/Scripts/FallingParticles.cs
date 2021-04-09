@@ -70,7 +70,7 @@ public class FallingParticles : MonoBehaviour
         }else if (other.gameObject.tag == "GameElement"){
             if (other.gameObject.GetComponent<FallingParticles>().touchPlayer){
                 // Opps! Space Fighter has been destroyed! in Red
-                GameManager.instance.GameOver();
+                GameManager.instance.GameOver(false, "Opps! Space Fighter has been destroyed!", Color.red);
             }
         }
 
@@ -85,7 +85,7 @@ public class FallingParticles : MonoBehaviour
             
             if (rigidBody.position.y > -1.0f){
                 // the storage area is filled with non-lined ionised particles; "Opps! Ionised particles are not successfully lined in the storage! " in Orange
-                GameManager.instance.GameOver();
+                GameManager.instance.GameOver(false, "Opps! Ionised particles are not successfully lined in the storage!", new Color(255,165,0));
             }
         }
 
